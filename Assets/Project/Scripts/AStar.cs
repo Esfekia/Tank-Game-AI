@@ -58,10 +58,10 @@ public class AStar : MonoBehaviour
     {
         map = new List<string>();
         map.Add("G-----");
-        map.Add("XXXXX-");
-        map.Add("S-X-X-");
-        map.Add("--X-X-");
-        map.Add("--X-X-");
+        map.Add("XXX-X-");
+        map.Add("S-X-XX");
+        map.Add("--X---");
+        map.Add("X-XXX-");
         map.Add("------");
 
         // Parse the map.
