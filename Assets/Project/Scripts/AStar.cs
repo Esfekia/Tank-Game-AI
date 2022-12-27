@@ -6,20 +6,12 @@ using UnityEngine;
 // so that it can be used in a pathfinding algorithm.
 class Node
 {
-    // Every node may have different values,
-    // according to your application.
-    public enum Value { 
-        FREE,
-        BLOCKED
-    }
-    
-    // Nodes have X and Y positions
-    // (horizontal and vertical).
+
+
+    // Nodes have horizontal X and vertical Y positions
     public int posX;
     public int posY;
 
-    // Nodes have a cost to move to them.
-    
     // G is a basic *cost* value to go form one node to another.
     public int g_cost = int.MaxValue;
 
@@ -31,7 +23,7 @@ class Node
     public Node parent = null;
 
     // The value of the node.
-    public Value value;
+    public NavTile value = null;
 
     // Constructor.
     public Node(int posX, int posY)
@@ -45,68 +37,53 @@ class Node
 
 public class AStar : MonoBehaviour
 {
-    // Constants.
-    private const int MAP_SIZE = 6;
+
+    // Public Variables.
+    public GameObject backgroundContainer;
+
+
 
     // Variables.
-    private List<string> map;
+    private int mapWidth;
+    private int mapHeight;    
     private Node[,] nodeMap;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        map = new List<string>();
-        map.Add("G-----");
-        map.Add("XXX-X-");
-        map.Add("S-X-XX");
-        map.Add("--X---");
-        map.Add("X-XXX-");
-        map.Add("------");
+        // Preload values.
+
+        mapHeight = backgroundContainer.transform.childCount;
+        mapWidth = backgroundContainer.transform.GetChild(0).childCount;
 
         // Parse the map.
-        nodeMap = new Node[MAP_SIZE, MAP_SIZE];
+        nodeMap = new Node[mapWidth, mapHeight]; // 9 and 11.
         Node start = null;
         Node goal = null;
 
-        for (int y = 0; y < MAP_SIZE; y++)
+        
+        // Do every column.
+        for (int y = 0; y < backgroundContainer.transform.childCount; y++)
         {
-            for (int x = 0; x < MAP_SIZE; x++)
+            // Access the sub elements of the background container. (horizontal values)
+            Transform backgroundRow = backgroundContainer.transform.GetChild(y);
+            
+            // Do evert row within that column.
+            for (int x = 0; x < backgroundRow.childCount; x++)
             {
+                NavTile tile = backgroundRow.GetChild(x).GetComponent<NavTile>();
+                
                 Node node = new Node(x, y);
-
-                char currentChar = map[y][x];
-                if (currentChar == 'X')
-                    node.value = Node.Value.BLOCKED;
-                else if (currentChar == 'S')
-                    start = node;
-                else if (currentChar == 'G')
-                    goal = node;
-                else node.value = Node.Value.FREE;
+                node.value = tile;
                 nodeMap[x, y] = node;
             }
 
-        }
+        }        
 
         // Execute the A-Star algorithm.
-        List<Node> nodePath = ExecuteAStar(start, goal);
-
-        // Burn the path into the map.
-        foreach (Node node in nodePath)
-        {
-            char[] charArray = map[node.posY].ToCharArray();
-            charArray[node.posX] = '@';
-            map[node.posY] = new string(charArray);
-
-        }
-
-        // Print the map.
-        string mapString = "";
-        foreach (string mapRow in map)
-        {
-            mapString += mapRow + "\n";
-        }
-        Debug.Log(mapString);
+        //BRING BACK BELOW!!
+        //List<Node> nodePath = ExecuteAStar(start, goal);                
 
     }
 
