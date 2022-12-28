@@ -40,13 +40,15 @@ public class AStar : MonoBehaviour
 
     // Public Variables.
     public GameObject backgroundContainer;
-
+    public GameObject player;
+    public GameObject enemy;
 
 
     // Variables.
     private int mapWidth;
     private int mapHeight;    
     private Node[,] nodeMap;
+    
 
 
     // Start is called before the first frame update
@@ -79,12 +81,46 @@ public class AStar : MonoBehaviour
                 nodeMap[x, y] = node;
             }
 
-        }        
+        }
+        start = FindNode(player);
+        goal = FindNode(enemy);
+
+        Debug.Log("Player is on" + start.posX + " " + start.posY);
+        Debug.Log("Enemy is on" + goal.posX + " " + goal.posY);
 
         // Execute the A-Star algorithm.
-        //BRING BACK BELOW!!
+        //BRING BACK BELOW!! 
         //List<Node> nodePath = ExecuteAStar(start, goal);                
 
+    }
+
+    private Node FindNode(GameObject obj)
+    {
+        // Circlecast to determine the tiles the invisible circle in the tank is touching
+
+        Collider2D[] collidingObjects = Physics2D.OverlapCircleAll(obj.transform.position, 0.2f);
+        foreach (Collider2D collidingObject in collidingObjects)
+        {
+            if (collidingObject.gameObject.GetComponent<NavTile>() != null)
+            {
+                // This is the tile that the object is on. 
+                NavTile tile = collidingObject.gameObject.GetComponent<NavTile>();
+
+                // Find the node which contains the tile.
+                for (int y = 0; y < mapHeight; y++)
+                {
+                    for (int x = 0; x < mapWidth; x++)
+                    {
+                        Node node = nodeMap[x, y];
+                        if (node.value == tile)
+                        {
+                            return node;
+                        }
+                    }
+                }                
+            }
+        }
+        return null;
     }
 
     private List<Node> ExecuteAStar(Node start, Node goal)
@@ -188,32 +224,28 @@ public class AStar : MonoBehaviour
         {
             // Candidate because that node might be blocked
             Node candidate = nodeMap[node.posX - 1, node.posY];
-            if (candidate.value != Node.Value.BLOCKED)
-                neighbours.Add(candidate);
+
         }
 
         // Right side
-        if (node.posX + 1 <= MAP_SIZE-1)
+        if (node.posX + 1 <= mapWidth-1)
         {
             Node candidate = nodeMap[node.posX + 1, node.posY];
-            if (candidate.value != Node.Value.BLOCKED)
-                neighbours.Add(candidate);
+
         }
 
         // Top side
         if (node.posY - 1 >= 0)
         {
             Node candidate = nodeMap[node.posX, node.posY - 1];
-            if (candidate.value != Node.Value.BLOCKED)
-                neighbours.Add(candidate);
+
         }
 
         // Bottom side
-        if (node.posY + 1 <= MAP_SIZE - 1)
+        if (node.posY + 1 <= mapHeight - 1)
         {
             Node candidate = nodeMap[node.posX, node.posY + 1];
-            if (candidate.value != Node.Value.BLOCKED)
-                neighbours.Add(candidate);
+
         }
 
         return neighbours;
