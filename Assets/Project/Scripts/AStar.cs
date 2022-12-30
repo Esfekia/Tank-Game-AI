@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Class that holds information about a certain position
 // so that it can be used in a pathfinding algorithm.
-class Node
+public class Node
 {
 
 
@@ -52,7 +52,7 @@ public class AStar : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    public List<Node> FindPath()
     {
         // Preload values.
 
@@ -89,8 +89,11 @@ public class AStar : MonoBehaviour
         Debug.Log("Enemy is on" + goal.posX + " " + goal.posY);
 
         // Execute the A-Star algorithm.
-        //BRING BACK BELOW!! 
-        //List<Node> nodePath = ExecuteAStar(start, goal);                
+        
+        List<Node> nodePath = ExecuteAStar(start, goal);
+        // Since the path starts from end towards beginning, we gotta reverse it.
+        nodePath.Reverse();
+        return nodePath;
 
     }
 
@@ -224,6 +227,7 @@ public class AStar : MonoBehaviour
         {
             // Candidate because that node might be blocked
             Node candidate = nodeMap[node.posX - 1, node.posY];
+            neighbours.Add(candidate);
 
         }
 
@@ -231,6 +235,7 @@ public class AStar : MonoBehaviour
         if (node.posX + 1 <= mapWidth-1)
         {
             Node candidate = nodeMap[node.posX + 1, node.posY];
+            neighbours.Add(candidate);
 
         }
 
@@ -238,6 +243,7 @@ public class AStar : MonoBehaviour
         if (node.posY - 1 >= 0)
         {
             Node candidate = nodeMap[node.posX, node.posY - 1];
+            neighbours.Add(candidate);
 
         }
 
@@ -245,6 +251,7 @@ public class AStar : MonoBehaviour
         if (node.posY + 1 <= mapHeight - 1)
         {
             Node candidate = nodeMap[node.posX, node.posY + 1];
+            neighbours.Add(candidate);
 
         }
 
