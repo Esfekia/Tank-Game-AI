@@ -223,7 +223,7 @@ public class AStar : MonoBehaviour
         
 
         // Left side
-        if (node.posX -1 >= 0)
+        if (node.value.canMoveLeft && node.posX -1 >= 0)
         {
             // Candidate because that node might be blocked
             Node candidate = nodeMap[node.posX - 1, node.posY];
@@ -235,7 +235,7 @@ public class AStar : MonoBehaviour
         }
 
         // Right side
-        if (node.posX + 1 <= mapWidth-1)
+        if (node.value.canMoveRight && node.posX + 1 <= mapWidth-1)
         {
             Node candidate = nodeMap[node.posX + 1, node.posY];
             if (candidate.value.navigable)
@@ -247,7 +247,7 @@ public class AStar : MonoBehaviour
         }
 
         // Top side
-        if (node.posY - 1 >= 0)
+        if (node.value.canMoveUp && node.posY - 1 >= 0)
         {
             Node candidate = nodeMap[node.posX, node.posY - 1];
             if (candidate.value.navigable)
@@ -258,7 +258,7 @@ public class AStar : MonoBehaviour
         }
 
         // Bottom side
-        if (node.posY + 1 <= mapHeight - 1)
+        if (node.value.canMoveDown && node.posY + 1 <= mapHeight - 1)
         {
             Node candidate = nodeMap[node.posX, node.posY + 1];
             if (candidate.value.navigable)
