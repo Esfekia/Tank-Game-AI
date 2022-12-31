@@ -227,7 +227,10 @@ public class AStar : MonoBehaviour
         {
             // Candidate because that node might be blocked
             Node candidate = nodeMap[node.posX - 1, node.posY];
-            neighbours.Add(candidate);
+            if (candidate.value.navigable)
+            {
+                neighbours.Add(candidate);
+            }
 
         }
 
@@ -235,7 +238,11 @@ public class AStar : MonoBehaviour
         if (node.posX + 1 <= mapWidth-1)
         {
             Node candidate = nodeMap[node.posX + 1, node.posY];
-            neighbours.Add(candidate);
+            if (candidate.value.navigable)
+            {
+                neighbours.Add(candidate);
+            }
+            
 
         }
 
@@ -243,7 +250,10 @@ public class AStar : MonoBehaviour
         if (node.posY - 1 >= 0)
         {
             Node candidate = nodeMap[node.posX, node.posY - 1];
-            neighbours.Add(candidate);
+            if (candidate.value.navigable)
+            {
+                neighbours.Add(candidate);
+            }
 
         }
 
@@ -251,7 +261,10 @@ public class AStar : MonoBehaviour
         if (node.posY + 1 <= mapHeight - 1)
         {
             Node candidate = nodeMap[node.posX, node.posY + 1];
-            neighbours.Add(candidate);
+            if (candidate.value.navigable)
+            {
+                neighbours.Add(candidate);
+            }
 
         }
 
