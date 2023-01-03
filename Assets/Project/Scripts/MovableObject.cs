@@ -8,10 +8,11 @@ public class MovableObject : MonoBehaviour
     
     private List<Node> currentPath;
     private Node targetNode;
+    private Quaternion targetRotation;
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         currentPath = new List<Node>();
     }
@@ -32,7 +33,12 @@ public class MovableObject : MonoBehaviour
         {
             Vector3 direction = (targetNode.value.transform.position - transform.position).normalized;
             transform.position += direction * speed * Time.deltaTime;
-            
+
+            // Smooth rotation of player
+            float angle = Mathf.Atan2(direction.y, direction.x);
+            targetRotation = Quaternion.Euler(0, 0, 90 + angle * Mathf.Rad2Deg);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 5 * Time.deltaTime);
+
             // When close enough force players position to be the node position.
             // Then clear targetNode so that a new loop can start above.
             if (Vector3.Distance(transform.position, targetNode.value.transform.position) < 0.01f)
