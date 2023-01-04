@@ -40,19 +40,14 @@ public class AStar : MonoBehaviour
 
     // Public Variables.
     public GameObject backgroundContainer;
-    public GameObject player;
-    public GameObject enemy;
-
 
     // Variables.
     private int mapWidth;
     private int mapHeight;    
     private Node[,] nodeMap;
-    
-
-
+        
     // Start is called before the first frame update
-    public List<Node> FindPath()
+    public List<Node> FindPath(GameObject obj1, GameObject obj2)
     {
         // Preload values.
 
@@ -80,13 +75,10 @@ public class AStar : MonoBehaviour
                 node.value = tile;
                 nodeMap[x, y] = node;
             }
-
+            
         }
-        start = FindNode(player);
-        goal = FindNode(enemy);
-
-        Debug.Log("Player is on" + start.posX + " " + start.posY);
-        Debug.Log("Enemy is on" + goal.posX + " " + goal.posY);
+        start = FindNode(obj1);
+        goal = FindNode(obj2);
 
         // Execute the A-Star algorithm.
         
@@ -97,6 +89,7 @@ public class AStar : MonoBehaviour
 
     }
 
+    // Find the node the object is on.
     private Node FindNode(GameObject obj)
     {
         // Circlecast to determine the tiles the invisible circle in the tank is touching
@@ -168,7 +161,7 @@ public class AStar : MonoBehaviour
             
             foreach (Node neighbor in neighbors)
             {
-                {
+                
                     // If the neighbor has already been visited,
                     // skip it.
                     if (closedList.Contains(neighbor))
@@ -202,7 +195,7 @@ public class AStar : MonoBehaviour
                         neighbor.f_cost = neighbor.g_cost + CalculateHeuristicValue(neighbor, goal);
                         // f = g + h (g is basic cost, h is heuristic value)
                     }
-                }
+                
             }
         }
         
@@ -282,7 +275,7 @@ public class AStar : MonoBehaviour
     // just read every parent and build the path.
     private List <Node> BuildPath(Node node)
     {
-        List<Node> path = new List<Node>();
+        List<Node> path = new List<Node>() { node };
         while (node.parent!= null)
         {            
             node = node.parent;

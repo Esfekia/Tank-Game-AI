@@ -41,7 +41,7 @@ public class MovableObject : MonoBehaviour
 
             // When close enough force players position to be the node position.
             // Then clear targetNode so that a new loop can start above.
-            if (Vector3.Distance(transform.position, targetNode.value.transform.position) < 0.01f)
+            if (Vector3.Distance(transform.position, targetNode.value.transform.position) < 0.001f)
             {
                 transform.position = targetNode.value.transform.position;
                 targetNode = null;
@@ -51,6 +51,7 @@ public class MovableObject : MonoBehaviour
     }    
     public void Move(List<Node> path)
     {
+        currentPath.Clear();
         foreach (Node node in path)
         {
             currentPath.Add(node);

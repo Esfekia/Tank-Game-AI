@@ -5360,8 +5360,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backgroundContainer: {fileID: 125497023}
-  player: {fileID: 1454208333}
-  enemy: {fileID: 1496609702}
 --- !u!4 &1577431750
 Transform:
   m_ObjectHideFlags: 0
@@ -6128,7 +6126,7 @@ GameObject:
   - component: {fileID: 1815863310}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
