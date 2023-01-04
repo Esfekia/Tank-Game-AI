@@ -37,13 +37,14 @@ public class MovableObject : MonoBehaviour
             // Smooth rotation of player
             float angle = Mathf.Atan2(direction.y, direction.x);
             targetRotation = Quaternion.Euler(0, 0, 90 + angle * Mathf.Rad2Deg);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 5 * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 10 * Time.deltaTime);
 
             // When close enough force players position to be the node position.
             // Then clear targetNode so that a new loop can start above.
-            if (Vector3.Distance(transform.position, targetNode.value.transform.position) < 0.001f)
+            if (Vector3.Distance(transform.position, targetNode.value.transform.position) < 0.1f)
             {
-                transform.position = targetNode.value.transform.position;
+                // Now that the player is fast, we do not need this line:
+                //transform.position = targetNode.value.transform.position;
                 targetNode = null;
             }
 
