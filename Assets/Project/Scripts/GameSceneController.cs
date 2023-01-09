@@ -4,20 +4,47 @@ using UnityEngine;
 
 public class GameSceneController : MonoBehaviour
 {
+    public float gameDuration = 30.0f;    
+    public float maxSpawnInterval = 2.0f;
+    public float minSpawnInterval = 0.5f;
+
     public MovableObject player;
     public AStar aStar;
+
+    private float gameTimer;
+    private float spawnTimer;
 
         
     // Start is called before the first frame update
     void Start()
     {
         //List<Node> path = aStar.FindPath(player.gameObject, GameObject.Find("Goal"));
-       //player.Move(path);
+        //player.Move(path);
+        spawnTimer = maxSpawnInterval;
         
     }
 
     private void Update()
     {
+        // Game Timer Logic
+        gameTimer += Time.deltaTime;
+        
+        //Ensuring the game difficulty always stays between zero and one.
+        float difficulty = Mathf.Min(gameTimer / gameDuration, 1.0f);
+
+        // Spawn Logic
+        spawnTimer -= Time.deltaTime;
+        if (spawnTimer <= 0)
+        {
+            // Difficulty Setting.
+            // The higher the difficulty, the lower the spawn interval.
+            float spawnInterval = maxSpawnInterval - (maxSpawnInterval - minSpawnInterval) * difficulty;
+            spawnTimer = spawnInterval;
+            Debug.Log("Spawn! Difficulty: " + difficulty);
+        }
+
+        // Input Logic
+
         if (Input.GetMouseButtonDown(0))
         {
             // Get the screen space of where you clicked and convert to world space.

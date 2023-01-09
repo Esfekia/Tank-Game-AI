@@ -1818,6 +1818,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17446e7ac88cdff4e92f147385526d82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameDuration: 30
+  MaxSpawnInterval: 2
+  MinSpawnInterval: 0.5
   player: {fileID: 1454208337}
   aStar: {fileID: 1577431749}
 --- !u!1001 &800424229
