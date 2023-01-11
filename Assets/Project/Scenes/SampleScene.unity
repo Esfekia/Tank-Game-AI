@@ -1441,6 +1441,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8138417328927415528, guid: c2940b74a7d1a2b43a06020b857c87ce, type: 3}
   m_PrefabInstance: {fileID: 604322175}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &630783635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 630783636}
+  m_Layer: 0
+  m_Name: CrateContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &630783636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 630783635}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 799386772}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &657232852
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1796,13 +1827,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 799386771}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.694002, y: -3.8261724, z: -4.015619}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1815863309}
   - {fileID: 125497024}
   - {fileID: 1454208334}
+  - {fileID: 630783636}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1819,8 +1851,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameDuration: 30
-  MaxSpawnInterval: 2
-  MinSpawnInterval: 0.5
+  maxSpawnInterval: 2
+  minSpawnInterval: 0.5
+  cratePrefab: {fileID: 559320421113423307, guid: 50dcaa1c79c80b44492f7bb3df3c7c37, type: 3}
+  crateContainer: {fileID: 630783635}
   player: {fileID: 1454208337}
   aStar: {fileID: 1577431749}
 --- !u!1001 &800424229

@@ -8,6 +8,9 @@ public class GameSceneController : MonoBehaviour
     public float maxSpawnInterval = 2.0f;
     public float minSpawnInterval = 0.5f;
 
+    public GameObject cratePrefab;
+    public GameObject crateContainer;
+
     public MovableObject player;
     public AStar aStar;
 
@@ -40,7 +43,11 @@ public class GameSceneController : MonoBehaviour
             // The higher the difficulty, the lower the spawn interval.
             float spawnInterval = maxSpawnInterval - (maxSpawnInterval - minSpawnInterval) * difficulty;
             spawnTimer = spawnInterval;
-            Debug.Log("Spawn! Difficulty: " + difficulty);
+
+            Vector3 spawnPosition = new Vector3(Random.Range(-6,6), Random.Range(-6,6));
+            
+            //Quaternion.identity is "just dont change the rotation"
+            Instantiate(cratePrefab, spawnPosition, Quaternion.identity , crateContainer.transform);
         }
 
         // Input Logic
