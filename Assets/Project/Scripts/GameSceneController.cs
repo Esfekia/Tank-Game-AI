@@ -19,6 +19,7 @@ public class GameSceneController : MonoBehaviour
     private float gameTimer;
     private float spawnTimer;
     private List<NavTile> navigableTiles;
+    int score;
 
         
     // Start is called before the first frame update
@@ -35,6 +36,8 @@ public class GameSceneController : MonoBehaviour
                 navigableTiles.Add(tile);
             }
         }
+
+        player.GetComponent<Player>().OnCollect += OnCollectCrate;
 
     }
 
@@ -75,17 +78,22 @@ public class GameSceneController : MonoBehaviour
             foreach (RaycastHit2D hit in hits)
             {
                 if (hit.collider.gameObject.GetComponent<NavTile>() != null)
-                    Debug.Log("You clicked on a tile at " + hit.collider.gameObject.transform.position);
-                // Do something with the tile.
-                // For example, move the player to that tile.
-                List<Node> path = aStar.FindPath(player.gameObject, hit.collider.gameObject);
-                player.Move(path);
-                break;
+                {
+                    // Do something with the tile.
+                    // For example, move the player to that tile.
+                    List<Node> path = aStar.FindPath(player.gameObject, hit.collider.gameObject);
+                    player.Move(path);
+                    break;
+                }
             }
-        }
-
-        
+        }                
     }
 
-
+    private void OnCollectCrate(GameObject crate)
+    {
+        Destroy(crate);
+        score++;
+        Debug.Log("Score: " + score);
+    }
+        
 }

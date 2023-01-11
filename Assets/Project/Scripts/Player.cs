@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public delegate void CollectHandler(GameObject crate);
+    public event CollectHandler OnCollect;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +23,11 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.tag == "Crate")
         {
-            Destroy(other.gameObject);
+            if (OnCollect != null)
+            {
+                // If we collided with something, we are going to let anybody who is listening know.
+                OnCollect(other.gameObject);
+            }
         }
     }
 }
