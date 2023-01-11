@@ -10,21 +10,31 @@ public class GameSceneController : MonoBehaviour
 
     public GameObject cratePrefab;
     public GameObject crateContainer;
+    public GameObject navTileContainer;
 
     public MovableObject player;
     public AStar aStar;
 
     private float gameTimer;
     private float spawnTimer;
+    private List<NavTile> navigableTiles;
 
         
     // Start is called before the first frame update
     void Start()
-    {
-        //List<Node> path = aStar.FindPath(player.gameObject, GameObject.Find("Goal"));
-        //player.Move(path);
+    {        
         spawnTimer = maxSpawnInterval;
-        
+
+        //Build a list of all the navigable tiles
+        navigableTiles = new List<NavTile>();
+        foreach (NavTile tile in navTileContainer.GetComponentsInChildren<NavTile>())
+        {
+            if (tile.navigable)
+            {
+                navigableTiles.Add(tile);
+            }
+        }
+
     }
 
     private void Update()
@@ -43,9 +53,9 @@ public class GameSceneController : MonoBehaviour
             // The higher the difficulty, the lower the spawn interval.
             float spawnInterval = maxSpawnInterval - (maxSpawnInterval - minSpawnInterval) * difficulty;
             spawnTimer = spawnInterval;
-
-            Vector3 spawnPosition = new Vector3(Random.Range(-6,6), Random.Range(-6,6));
             
+            Vector3 spawnPosition = navigableTiles[Random.Range(0, navigableTiles.Count)].transform.position;
+
             //Quaternion.identity is "just dont change the rotation"
             Instantiate(cratePrefab, spawnPosition, Quaternion.identity , crateContainer.transform);
         }

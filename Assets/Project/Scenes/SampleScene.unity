@@ -1855,6 +1855,7 @@ MonoBehaviour:
   minSpawnInterval: 0.5
   cratePrefab: {fileID: 559320421113423307, guid: 50dcaa1c79c80b44492f7bb3df3c7c37, type: 3}
   crateContainer: {fileID: 630783635}
+  navTileContainer: {fileID: 125497023}
   player: {fileID: 1454208337}
   aStar: {fileID: 1577431749}
 --- !u!1001 &800424229
