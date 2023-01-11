@@ -7,6 +7,7 @@ public class GameSceneController : MonoBehaviour
     public float gameDuration = 30.0f;    
     public float maxSpawnInterval = 2.0f;
     public float minSpawnInterval = 0.5f;
+    public float crateLifeTime = 10.0f;
 
     public GameObject cratePrefab;
     public GameObject crateContainer;
@@ -57,7 +58,8 @@ public class GameSceneController : MonoBehaviour
             Vector3 spawnPosition = navigableTiles[Random.Range(0, navigableTiles.Count)].transform.position;
 
             //Quaternion.identity is "just dont change the rotation"
-            Instantiate(cratePrefab, spawnPosition, Quaternion.identity , crateContainer.transform);
+            GameObject crateInstance = Instantiate(cratePrefab, spawnPosition, Quaternion.identity , crateContainer.transform);
+            Destroy(crateInstance, crateLifeTime);
         }
 
         // Input Logic
