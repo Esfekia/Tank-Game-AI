@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameSceneController : MonoBehaviour
 {
@@ -13,18 +14,36 @@ public class GameSceneController : MonoBehaviour
     public GameObject crateContainer;
     public GameObject navTileContainer;
 
+    public Text scoreText;
+
     public MovableObject player;
     public AStar aStar;
 
     private float gameTimer;
     private float spawnTimer;
     private List<NavTile> navigableTiles;
+    
+    // Store the Score
     int score;
-
+    public int Score
+    {
+        get
+        {
+            return score;
+        }
+        set 
+        {
+            score = value;
+            scoreText.text = "Score: " + score;
+        }
+    
+    }
         
     // Start is called before the first frame update
     void Start()
-    {        
+    {
+        Score = 0;
+
         spawnTimer = maxSpawnInterval;
 
         //Build a list of all the navigable tiles
@@ -36,7 +55,7 @@ public class GameSceneController : MonoBehaviour
                 navigableTiles.Add(tile);
             }
         }
-
+        
         player.GetComponent<Player>().OnCollect += OnCollectCrate;
 
     }
@@ -92,8 +111,7 @@ public class GameSceneController : MonoBehaviour
     private void OnCollectCrate(GameObject crate)
     {
         Destroy(crate);
-        score++;
-        Debug.Log("Score: " + score);
+        Score++;        
     }
         
 }
