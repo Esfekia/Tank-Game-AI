@@ -14,14 +14,22 @@ public class GameSceneController : MonoBehaviour
     public GameObject crateContainer;
     public GameObject navTileContainer;
 
+    [Header ("UI")]
+    public GameObject startGroup;
+    public GameObject gamePlayGroup;
+    public GameObject gameOverGroup;
     public Text scoreText;
 
+    [Header ("Gameplay")]
     public MovableObject player;
     public AStar aStar;
 
     private float gameTimer;
     private float spawnTimer;
     private List<NavTile> navigableTiles;
+
+    private bool isPlaying;
+    private bool isGameOver;
     
     // Store the Score
     int score;
@@ -57,61 +65,76 @@ public class GameSceneController : MonoBehaviour
         }
         
         player.GetComponent<Player>().OnCollect += OnCollectCrate;
-
+        startGroup.SetActive(true);
+        gamePlayGroup.SetActive(false);
+        gameOverGroup.SetActive(false);
     }
 
     private void Update()
     {
-        // Game Timer Logic
-        gameTimer += Time.deltaTime;
-        
-        //Ensuring the game difficulty always stays between zero and one.
-        float difficulty = Mathf.Min(gameTimer / gameDuration, 1.0f);
-
-        // Spawn Logic
-        spawnTimer -= Time.deltaTime;
-        if (spawnTimer <= 0)
+        if (isPlaying)
         {
-            // Difficulty Setting.
-            // The higher the difficulty, the lower the spawn interval.
-            float spawnInterval = maxSpawnInterval - (maxSpawnInterval - minSpawnInterval) * difficulty;
-            spawnTimer = spawnInterval;
-            
-            Vector3 spawnPosition = navigableTiles[Random.Range(0, navigableTiles.Count)].transform.position;
+            // Game Timer Logic
+            gameTimer += Time.deltaTime;
 
-            //Quaternion.identity is "just dont change the rotation"
-            GameObject crateInstance = Instantiate(cratePrefab, spawnPosition, Quaternion.identity , crateContainer.transform);
-            Destroy(crateInstance, crateLifeTime);
-        }
+            //Ensuring the game difficulty always stays between zero and one.
+            float difficulty = Mathf.Min(gameTimer / gameDuration, 1.0f);
 
-        // Input Logic
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            // Get the screen space of where you clicked and convert to world space.
-            Vector3 screenPosition = Input.mousePosition;
-            Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-
-            // Perform raycast "inside" to identify what tile is selected
-            RaycastHit2D[] hits = Physics2D.RaycastAll(worldPosition, Vector2.zero);
-            foreach (RaycastHit2D hit in hits)
+            // Spawn Logic
+            spawnTimer -= Time.deltaTime;
+            if (spawnTimer <= 0)
             {
-                if (hit.collider.gameObject.GetComponent<NavTile>() != null)
+                // Difficulty Setting.
+                // The higher the difficulty, the lower the spawn interval.
+                float spawnInterval = maxSpawnInterval - (maxSpawnInterval - minSpawnInterval) * difficulty;
+                spawnTimer = spawnInterval;
+
+                Vector3 spawnPosition = navigableTiles[Random.Range(0, navigableTiles.Count)].transform.position;
+
+                //Quaternion.identity is "just dont change the rotation"
+                GameObject crateInstance = Instantiate(cratePrefab, spawnPosition, Quaternion.identity, crateContainer.transform);
+                Destroy(crateInstance, crateLifeTime);
+            }
+
+            // Input Logic
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                // Get the screen space of where you clicked and convert to world space.
+                Vector3 screenPosition = Input.mousePosition;
+                Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+
+                // Perform raycast "inside" to identify what tile is selected
+                RaycastHit2D[] hits = Physics2D.RaycastAll(worldPosition, Vector2.zero);
+                foreach (RaycastHit2D hit in hits)
                 {
-                    // Do something with the tile.
-                    // For example, move the player to that tile.
-                    List<Node> path = aStar.FindPath(player.gameObject, hit.collider.gameObject);
-                    player.Move(path);
-                    break;
+                    if (hit.collider.gameObject.GetComponent<NavTile>() != null)
+                    {
+                        // Do something with the tile.
+                        // For example, move the player to that tile.
+                        List<Node> path = aStar.FindPath(player.gameObject, hit.collider.gameObject);
+                        player.Move(path);
+                        break;
+                    }
                 }
             }
-        }                
+        }
+        
     }
 
     private void OnCollectCrate(GameObject crate)
     {
         Destroy(crate);
         Score++;        
+    }
+    
+    public void onPlay()
+    {
+        startGroup.SetActive(false);
+        gamePlayGroup.SetActive(true);
+        gameOverGroup.SetActive(false);
+
+        isPlaying = true;
     }
         
 }
