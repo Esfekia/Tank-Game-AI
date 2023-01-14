@@ -20,6 +20,8 @@ public class GameSceneController : MonoBehaviour
     public GameObject gamePlayGroup;
     public GameObject gameOverGroup;
     public Text scoreText;
+    public Text gameOverText;
+    public Text timeText;
 
     [Header ("Gameplay")]
     public MovableObject player;
@@ -79,7 +81,10 @@ public class GameSceneController : MonoBehaviour
         {
             // Game Timer Logic
             gameTimer += Time.deltaTime;
-
+            
+            // To ensure we display integers we use CeilToInt to round up:
+            timeText.text = string.Format("Time: {0}", Mathf.CeilToInt(gameDuration - gameTimer));
+            
             //Ensuring the game difficulty always stays between zero and one.
             float difficulty = Mathf.Min(gameTimer / gameDuration, 1.0f);
 
@@ -154,6 +159,8 @@ public class GameSceneController : MonoBehaviour
         gamePlayGroup.SetActive(false);
         gameOverGroup.SetActive(true);
         isPlaying = false;
+
+        gameOverText.text = string.Format(gameOverText.text, Score);
     }
 
     public void OnReplay()
