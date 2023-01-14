@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameSceneController : MonoBehaviour
 {
@@ -149,8 +150,15 @@ public class GameSceneController : MonoBehaviour
     
     private void OnGameOver()
     {
-        Debug.Log("Game Over");
+        startGroup.SetActive(false);
+        gamePlayGroup.SetActive(false);
+        gameOverGroup.SetActive(true);
         isPlaying = false;
+    }
+
+    public void OnReplay()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
         
 }
