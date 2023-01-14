@@ -72,6 +72,8 @@ public class GameSceneController : MonoBehaviour
 
     private void Update()
     {
+
+
         if (isPlaying)
         {
             // Game Timer Logic
@@ -118,6 +120,14 @@ public class GameSceneController : MonoBehaviour
                     }
                 }
             }
+
+            // Check for game over.
+            if (gameTimer > gameDuration && !isGameOver)
+            {
+
+                isGameOver = true; 
+                OnGameOver();
+            }
         }
         
     }
@@ -128,13 +138,19 @@ public class GameSceneController : MonoBehaviour
         Score++;        
     }
     
-    public void onPlay()
+    public void OnPlay()
     {
         startGroup.SetActive(false);
         gamePlayGroup.SetActive(true);
         gameOverGroup.SetActive(false);
 
         isPlaying = true;
+    }
+    
+    private void OnGameOver()
+    {
+        Debug.Log("Game Over");
+        isPlaying = false;
     }
         
 }
