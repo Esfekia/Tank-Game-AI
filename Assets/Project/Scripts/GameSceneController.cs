@@ -19,6 +19,8 @@ public class GameSceneController : MonoBehaviour
     public GameObject startGroup;
     public GameObject gamePlayGroup;
     public GameObject gameOverGroup;
+    public Text newHighScoreText;
+    public Text highscoreText;
     public Text scoreText;
     public Text gameOverText;
     public Text timeText;
@@ -71,6 +73,10 @@ public class GameSceneController : MonoBehaviour
         startGroup.SetActive(true);
         gamePlayGroup.SetActive(false);
         gameOverGroup.SetActive(false);
+
+        //PlayerPrefs allows you to store a value.
+        int currentHighScore = PlayerPrefs.GetInt("highscore");
+        highscoreText.text = string.Format(highscoreText.text, currentHighScore);
     }
 
     private void Update()
@@ -161,6 +167,15 @@ public class GameSceneController : MonoBehaviour
         isPlaying = false;
 
         gameOverText.text = string.Format(gameOverText.text, Score);
+
+        // Save the highscore.
+        newHighScoreText.gameObject.SetActive(false);
+        int currentHighScore = PlayerPrefs.GetInt("highscore");
+        if (Score > currentHighScore)
+        {
+            PlayerPrefs.SetInt("highscore", Score);
+            newHighScoreText.gameObject.SetActive(true);
+        }
     }
 
     public void OnReplay()
