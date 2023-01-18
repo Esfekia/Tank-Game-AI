@@ -35,6 +35,9 @@ public class GameSceneController : MonoBehaviour
 
     private bool isPlaying;
     private bool isGameOver;
+
+    [Header("Audio")]
+    public AudioSource collectSound;
     
     // Store the Score
     int score;
@@ -147,7 +150,8 @@ public class GameSceneController : MonoBehaviour
     private void OnCollectCrate(GameObject crate)
     {
         Destroy(crate);
-        Score++;        
+        Score++;
+        collectSound.Play();
     }
     
     public void OnPlay()
